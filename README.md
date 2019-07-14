@@ -1,5 +1,9 @@
+
 # troso
+[![npm version](https://badge.fury.io/js/troso.svg)](https://badge.fury.io/js/troso)
+
 *"Ang legal na logger"*
+
 
 ## Install
 
