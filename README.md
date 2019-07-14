@@ -3,11 +3,19 @@
 
 ## Install
 
+#### Choose 1 of 3 options:
+
+Install from NPM:
+
+    npm install troso
+
+Install latest from GitHub:
+
     npm install github:kosinix/troso
 
-Tied to a specific version/release
+Tied to a specific version/release from GitHub:
 
-    npm install github:kosinix/troso#1.0.0
+    npm install github:kosinix/troso#1.1.0
     
 ## Quickstart
 
