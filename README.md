@@ -24,46 +24,47 @@ Tied to a specific version/release from GitHub:
 ## Quickstart
 
 
-    let loggerOk = new troso.Logger({
-        transports: [
-            new troso.transports.Console() // Displays on console
-        ]
-    });
-
-## Advance Usage
-
-    //// Core modules
-    const util = require('util');
-
-    //// External modules
-    const moment = require('moment');
     const troso = require('troso');
 
-    //// Modules
-
-
-    let loggerError = new troso.Logger({
-        transports: [
-            new troso.transports.Console(),
-            new troso.transports.DailyFile({
-                directory: '/home/log',
-                formatter: (message) => {
-                    let today = moment(); //new Date();
-                    return util.format('%s: %s %s', today.utcOffset('+0800').format('YYYY-MM-DD hh:MM:ss A ([UTC]Z)'), message, "\n");
-                }
-            })
-        ],
-    });
-
-    let loggerOk = new troso.Logger({
+    let logger = new troso.Logger({
         transports: [
             new troso.transports.Console()
         ]
     });
 
-    loggerOk.log(message);
-    loggerError.log(message);
+    logger.log(1, 2, 3, 'four', ['an', 'array', 2], { an: 'object' }, undefined, true, false, Math.floor)
 
+## File and Multiple Transports
+
+Will log on both console and file tests/log.txt
+
+    const troso = require('../index.js');
+
+    let logger = new troso.Logger({
+        transports: [
+            new troso.transports.Console(),
+            new troso.transports.File('tests/log.txt')
+        ]
+    });
+
+    logger.log(1, 2, 3, 'four', ['an', 'array', 2], { an: 'object' }, undefined, true, false, Math.floor)
+
+## Daily File
+
+Will log on a file named tests/{YYYY-MM-DD}.txt
+This will prevent having a big log file.
+
+    const troso = require('../index.js');
+
+    let logger = new troso.Logger({
+        transports: [
+            new troso.transports.DailyFile({
+                directory: 'tests'
+            })
+        ]
+    });
+
+    logger.log(1, 2, 3, 'four', ['an', 'array', 2], { an: 'object' }, undefined, true, false, Math.floor)
 
 ## Transports
 

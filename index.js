@@ -30,8 +30,15 @@ class Logger {
 }
 
 class TransportConsole {
+    /**
+     * 
+     * @param {Object} opts Additional options.
+     */
     constructor(opts) {
         let defaults = {
+            /**
+             * Format the log message. Default formatter does nothing. lol.
+             */
             formatter: (message) => {
                 return message;
             }
@@ -49,8 +56,16 @@ class TransportConsole {
 }
 
 class TransportFile {
+    /**
+     * 
+     * @param {String} fileName File name of the log file.
+     * @param {Object} opts Additional options.
+     */
     constructor(fileName, opts) {
         let defaults = {
+            /**
+             * Format the log message. Default formatter prepends a date time and appends a new line
+             */
             formatter: (message) => {
                 let today = new Date();
                 if (typeof message === 'object') {
@@ -58,6 +73,9 @@ class TransportFile {
                 }
                 return `${today.toISOString()}: ${message} ${"\n"}`
             },
+            /**
+             * Format each arguments passed on log(). Default formatter stringifies an object.
+             */
             argFormatter: (arg) => {
                 if (typeof arg === 'object') {
                     arg = JSON.stringify(arg)
@@ -82,9 +100,19 @@ class TransportFile {
 }
 
 class TransportDailyFile {
+    /**
+     * 
+     * @param {*} opts 
+     */
     constructor(opts) {
         let defaults = {
+            /**
+             * Directory of logs.
+             */
             directory: '',
+            /**
+             * Format the log message. Default formatter prepends a date time and appends a new line
+             */
             formatter: (message) => {
                 let today = new Date();
                 if (typeof message === 'object') {
@@ -92,12 +120,18 @@ class TransportDailyFile {
                 }
                 return `${today.toISOString()}: ${message} ${"\n"}`
             },
+            /**
+             * Format each arguments passed on log(). Default formatter stringifies an object.
+             */
             argFormatter: (arg) => {
                 if (typeof arg === 'object') {
                     arg = JSON.stringify(arg)
                 }
                 return arg
             },
+            /**
+             * Format the file name. Default formatter returns the date today.
+             */
             fileNamer: () => {
                 return new Date().toISOString().slice(0, 10) + '.txt'
             }
