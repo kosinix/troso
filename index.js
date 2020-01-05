@@ -4,7 +4,6 @@
 
 //// Core modules
 const fs = require('fs');
-const util = require('util');
 const path = require('path');
 
 //// External modules
@@ -42,7 +41,7 @@ class TransportConsole {
     }
     log() {
         let args = arguments
-        for(var i in arguments){
+        for (var i in arguments) {
             args[i] = this.formatter(arguments[i])
         }
         console.log(...args);
@@ -54,17 +53,27 @@ class TransportFile {
         let defaults = {
             formatter: (message) => {
                 let today = new Date();
-                return util.format('%s: %s %s', today.toISOString(), message, "\n");
-            }
+                if (typeof message === 'object') {
+                    message = JSON.stringify(message)
+                }
+                return `${today.toISOString()}: ${message} ${"\n"}`
+            },
+            argFormatter: (arg) => {
+                if (typeof arg === 'object') {
+                    arg = JSON.stringify(arg)
+                }
+                return arg
+            },
         };
         opts = Object.assign(defaults, opts);
         this.fileName = fileName;
         this.formatter = opts.formatter;
+        this.argFormatter = opts.argFormatter;
     }
     log() {
         let args = []
-        for(var i in arguments){
-            args.push(arguments[i])
+        for (var i in arguments) {
+            args.push(this.argFormatter(arguments[i]))
         }
         let message = args.join(" ")
         let writeStream = fs.createWriteStream(this.fileName, { flags: 'a' });
@@ -78,7 +87,16 @@ class TransportDailyFile {
             directory: '',
             formatter: (message) => {
                 let today = new Date();
-                return util.format('%s: %s %s', today.toISOString(), message, "\n");
+                if (typeof message === 'object') {
+                    message = JSON.stringify(message)
+                }
+                return `${today.toISOString()}: ${message} ${"\n"}`
+            },
+            argFormatter: (arg) => {
+                if (typeof arg === 'object') {
+                    arg = JSON.stringify(arg)
+                }
+                return arg
             },
             fileNamer: () => {
                 return new Date().toISOString().slice(0, 10) + '.txt'
@@ -87,12 +105,13 @@ class TransportDailyFile {
         opts = Object.assign(defaults, opts);
         this.directory = opts.directory;
         this.formatter = opts.formatter;
+        this.argFormatter = opts.argFormatter;
         this.fileNamer = opts.fileNamer;
     }
     log() {
         let args = []
-        for(var i in arguments){
-            args.push(arguments[i])
+        for (var i in arguments) {
+            args.push(this.argFormatter(arguments[i]))
         }
         let message = args.join(" ")
         let fileName = path.join(this.directory, this.fileNamer())
