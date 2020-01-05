@@ -94,8 +94,7 @@ class TransportFile {
             args.push(this.argFormatter(arguments[i]))
         }
         let message = args.join(" ")
-        let writeStream = fs.createWriteStream(this.fileName, { flags: 'a' });
-        writeStream.write(this.formatter(message))
+        fs.writeFileSync(this.fileName, this.formatter(message), { flags: 'a' })
     }
 }
 
@@ -149,8 +148,7 @@ class TransportDailyFile {
         }
         let message = args.join(" ")
         let fileName = path.join(this.directory, this.fileNamer())
-        let writeStream = fs.createWriteStream(fileName, { flags: 'a' });
-        writeStream.write(this.formatter(message))
+        fs.writeFileSync(fileName, this.formatter(message), { flags: 'a' })
     }
 }
 
