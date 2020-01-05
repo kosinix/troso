@@ -71,3 +71,18 @@ This will prevent having a big log file.
 * Console - Show logs on console 
 * File - Save logs on a file
 * DailyFile - Save logs on a new file everyday
+
+
+## Tests
+
+Uses `jest`. Install jest globally
+
+    npm install jest --global
+
+    jest ./tests/index.test.js
+
+Individual tests. See output on console
+
+    node tests/console.js
+    node tests/file.js
+    node tests/daily-file.js
