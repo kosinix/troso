@@ -19,7 +19,7 @@ Install latest from GitHub:
 
 Tied to a specific version/release from GitHub:
 
-    npm install github:kosinix/troso#1.1.0
+    npm install github:kosinix/troso#2.0.0
     
 ## Quickstart
 
@@ -86,3 +86,14 @@ Individual tests. See output on console
     node tests/console.js
     node tests/file.js
     node tests/daily-file.js
+
+
+## Dev Notes
+
+Increment version run npm version x.x.x
+
+    npm version 2.0.0
+
+Publish to NPM
+
+    npm publish
