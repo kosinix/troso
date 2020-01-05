@@ -23,10 +23,9 @@ class Logger {
         opts = Object.assign(defaults, opts);
         this.transports = opts.transports;
     }
-    log(message, ...params) {
-        message = util.format(message, ...params);
+    log() {
         for (let i = 0; i < this.transports.length; i++) {
-            this.transports[i].log(message);
+            this.transports[i].log(...arguments);
         }
     }
 }
@@ -41,8 +40,12 @@ class TransportConsole {
         opts = Object.assign(defaults, opts);
         this.formatter = opts.formatter;
     }
-    log(message) {
-        console.log(this.formatter(message));
+    log() {
+        let args = arguments
+        for(var i in arguments){
+            args[i] = this.formatter(arguments[i])
+        }
+        console.log(...args);
     }
 }
 
@@ -58,9 +61,14 @@ class TransportFile {
         this.fileName = fileName;
         this.formatter = opts.formatter;
     }
-    log(message) {
+    log() {
+        let args = []
+        for(var i in arguments){
+            args.push(arguments[i])
+        }
+        let message = args.join(" ")
         let writeStream = fs.createWriteStream(this.fileName, { flags: 'a' });
-        writeStream.write(this.formatter(message));
+        writeStream.write(this.formatter(message))
     }
 }
 
@@ -77,9 +85,14 @@ class TransportDailyFile {
         this.fileName = path.join(opts.directory, new Date().toISOString().slice(0, 10) + '.txt');
         this.formatter = opts.formatter;
     }
-    log(message) {
+    log() {
+        let args = []
+        for(var i in arguments){
+            args.push(arguments[i])
+        }
+        let message = args.join(" ")
         let writeStream = fs.createWriteStream(this.fileName, { flags: 'a' });
-        writeStream.write(this.formatter(message));
+        writeStream.write(this.formatter(message))
     }
 }
 
