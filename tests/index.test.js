@@ -4,8 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-
-beforeEach(() => {
+const clearTestData = () => {
     // clear dir
     let directory = 'tests/data'
     let files = fs.readdirSync(directory);
@@ -14,10 +13,14 @@ beforeEach(() => {
             fs.unlinkSync(path.join(directory, file));
         }
     }
+}
+
+beforeEach(() => {
+    clearTestData()
 });
 
 afterEach(() => {
-
+    clearTestData()
 });
 
 test('Test TransportFile log', () => {
