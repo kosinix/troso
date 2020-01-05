@@ -1,4 +1,6 @@
-// A simple logging utility that uses built-in modules Date and Stream
+/**
+ * A simple logging utility that uses built-in modules
+ */
 
 //// Core modules
 const fs = require('fs');
@@ -10,22 +12,9 @@ const path = require('path');
 //// Modules
 
 
-/*
-Usage:
-    // Import
-    const weaverLogger = require('/path/to/weaverLogger');
-
-    // Initialize
-    const logger = new weaverLogger.Logger({
-        transports: [
-            new weaverLogger.transports.Console(),
-            new weaverLogger.transports.File('/logs/uploads.log')
-        ]
-    });
-
-    // Log
-    logger.log('Start of upload');
-*/
+/**
+ * Main class
+ */
 class Logger {
     constructor(opts) {
         let defaults = {
