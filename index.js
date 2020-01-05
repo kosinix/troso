@@ -79,11 +79,15 @@ class TransportDailyFile {
             formatter: (message) => {
                 let today = new Date();
                 return util.format('%s: %s %s', today.toISOString(), message, "\n");
+            },
+            fileNamer: () => {
+                return new Date().toISOString().slice(0, 10) + '.txt'
             }
         };
         opts = Object.assign(defaults, opts);
-        this.fileName = path.join(opts.directory, new Date().toISOString().slice(0, 10) + '.txt');
+        this.directory = opts.directory;
         this.formatter = opts.formatter;
+        this.fileNamer = opts.fileNamer;
     }
     log() {
         let args = []
@@ -91,7 +95,8 @@ class TransportDailyFile {
             args.push(arguments[i])
         }
         let message = args.join(" ")
-        let writeStream = fs.createWriteStream(this.fileName, { flags: 'a' });
+        let fileName = path.join(this.directory, this.fileNamer())
+        let writeStream = fs.createWriteStream(fileName, { flags: 'a' });
         writeStream.write(this.formatter(message))
     }
 }
