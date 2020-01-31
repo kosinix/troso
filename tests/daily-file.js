@@ -1,5 +1,5 @@
 /**
- * Run: node tests/file.js
+ * Run: node tests/daily-file.js
  */
 
 const troso = require('../index.js');
